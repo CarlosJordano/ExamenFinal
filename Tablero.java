@@ -1,27 +1,21 @@
 package modelo;
-
 import java.util.Random;
-
 public class Tablero {
     private final Casilla[][] casillas;
     private final int filas = 10;
     private final int columnas = 10;
     private final int minas = 10;
-
     public Tablero() {
         casillas = new Casilla[filas][columnas];
         inicializarTablero();
     }
-
     private void inicializarTablero() {
         for (int i = 0; i < filas; i++)
             for (int j = 0; j < columnas; j++)
                 casillas[i][j] = new Casilla();
-
         colocarMinas();
         calcularMinasAdyacentes();
     }
-
     private void colocarMinas() {
         Random rand = new Random();
         int colocadas = 0;
@@ -34,7 +28,6 @@ public class Tablero {
             }
         }
     }
-
     private void calcularMinasAdyacentes() {
         for (int i = 0; i < filas; i++)
             for (int j = 0; j < columnas; j++)
@@ -50,19 +43,15 @@ public class Tablero {
                     casillas[i][j].setMinasAdyacentes(contador);
                 }
     }
-
     public boolean enRango(int fila, int columna) {
         return fila >= 0 && fila < filas && columna >= 0 && columna < columnas;
     }
-
     public Casilla getCasilla(int fila, int columna) {
         return casillas[fila][columna];
     }
-
     public void descubrir(int fila, int columna) {
         Casilla casilla = casillas[fila][columna];
         if (casilla.estaDescubierta() || casilla.estaMarcada()) return;
-
         casilla.descubrir();
         if (casilla.getMinasAdyacentes() == 0 && !casilla.tieneMina()) {
             for (int dx = -1; dx <= 1; dx++)
@@ -74,7 +63,6 @@ public class Tablero {
                 }
         }
     }
-
     public boolean todasDescubiertas() {
         for (int i = 0; i < filas; i++)
             for (int j = 0; j < columnas; j++) {
@@ -84,7 +72,16 @@ public class Tablero {
             }
         return true;
     }
-
-    public int getFilas() { return filas; }
-    public int getColumnas() { return columnas; }
+    public int getFilas() {
+        return filas;
+    }
+    public int getColumnas() {
+        return columnas;
+    }
+    /**
+     * Reinicia el tablero para una nueva partida.
+     */
+    public void reiniciar() {
+        inicializarTablero();
+    }
 }
